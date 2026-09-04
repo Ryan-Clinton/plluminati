@@ -137,5 +137,42 @@ class TestBookkeeping(unittest.TestCase):
         self.assertTrue(kb.is_live)
 
 
+
+
+class TestOfflineKeyboard(unittest.TestCase):
+    """Running with no keyboard attached.
+
+    The UI is worth browsing without an EZ-150 on the desk - for a screenshot,
+    a demo, or anyone who cloned the repo out of curiosity.
+    """
+
+    def test_accepts_everything_and_sends_nothing(self):
+        from plluminati.session import OfflineKeyboard
+        kb = OfflineKeyboard()
+        kb.cue_on(60, 64)
+        kb.play(48)
+        kb.hit_wrong("hihat")
+        kb.apply_session_setup()
+        kb.panic()                       # must not raise
+
+    def test_reports_itself_live(self):
+        """Otherwise the UI sits forever asking the player to wake a keyboard
+        that is not there."""
+        from plluminati.session import OfflineKeyboard
+        self.assertTrue(OfflineKeyboard().is_live)
+
+    def test_context_manager_cleans_up(self):
+        from plluminati.session import open_offline
+        with open_offline() as kb:
+            kb.cue_on(60)
+        self.assertEqual(kb.lit, set())
+
+    def test_open_keyboard_offline_needs_no_device(self):
+        from plluminati.session import open_keyboard
+        with open_keyboard(offline=True) as kb:
+            kb.cue_on(60)
+            self.assertTrue(kb.is_live)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

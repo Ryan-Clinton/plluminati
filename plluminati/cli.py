@@ -273,7 +273,19 @@ def cmd_serve(args) -> int:
     def dispatch(msg):
         hub.on_midi(msg)
 
-    with open_keyboard(args.device, on_message=dispatch) as kb:
+    offline = args.offline
+    if not offline:
+        try:
+            device.resolve(args.device)
+        except device.DeviceNotFound:
+            # Falling over because a cable is unplugged is a poor way to greet
+            # anyone; the UI is worth browsing on its own.
+            print("No keyboard found - starting in offline mode.")
+            print("The UI works; nothing will light up.  Plug the cable in and")
+            print("restart to play for real.\n")
+            offline = True
+
+    with open_keyboard(args.device, on_message=dispatch, offline=offline) as kb:
         hub.kb = kb
         httpd = serve(hub, port=args.port)
         print(f"Plluminati UI on {url}")
@@ -413,6 +425,8 @@ def build_parser() -> argparse.ArgumentParser:
     sv.add_argument("-p", "--port", type=int, default=8420)
     sv.add_argument("--no-browser", action="store_true",
                     help="do not launch a browser window")
+    sv.add_argument("--offline", action="store_true",
+                    help="run without a keyboard - browse the UI, nothing lights up")
     sv.set_defaults(func=cmd_serve)
 
     st = sub.add_parser("selftest", help="guided hardware probe; writes a profile")

@@ -15,11 +15,19 @@ brings the same idea to **any MIDI file**.
 **Feature complete for v1.** MIDI I/O, hardware probe, song model, hand
 detection, scoring matcher, light-and-wait engine, play-along mode, the
 performance-gated tempo ramp, the riff repeater, profiles, per-hand mastery and
-the web UI — **140 tests passing, no dependencies**.
+the web UI — **144 tests passing, no dependencies**.
 
 Written for one specific keyboard on one specific desk. Much of it generalises,
 but the hardware quirks in §3 of the spec were measured, not assumed, and some
 of them are peculiar to this model.
+
+## Seeing it work
+
+The whole thing is visual — keys lighting up one at a time as somebody plays —
+and that does not survive being written down. A video goes here.
+
+<!-- VIDEO: drop the file in and link it, e.g.
+     https://github.com/user-attachments/assets/<id>  -->
 
 ## How it works
 
@@ -63,6 +71,10 @@ python3 -m plluminati selftest         # guided hardware probe -> profile JSON
 `learn` lights the notes for one hand, waits for you to play them, and plays the
 other hand aloud as you go. It never advances without a fresh keypress, so a
 repeated note really does need pressing again.
+
+**No EZ-150?** `serve` falls back to offline mode on its own when it cannot find
+a cable: the interface, the library and the song analysis all work, nothing
+lights up. Enough to see what it does.
 
 `selftest` is the one to run first on unfamiliar hardware, and the one to run
 when lights misbehave. It measures the link, checks for MIDI echo, times the
