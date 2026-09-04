@@ -1,0 +1,232 @@
+/* Dark and cinematic on purpose: the illuminated keys and the performance
+   colours read far better against black than against white, and the screen
+   sits behind the keyboard at roughly a metre. Everything is sized to be
+   glanced at, not studied. */
+
+:root {
+  --bg: #07090f;
+  --bg-soft: #10141f;
+  --line: #232a3a;
+  --text: #e8ecf5;
+  --dim: #8b95ab;
+  --accent: #5aa9ff;
+  --good: #35d68a;
+  --bad: #ff5c6c;
+  --cue: #ffc23d;
+  --radius: 16px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0; height: 100%;
+  background: var(--bg); color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  overflow: hidden;
+}
+
+body {
+  display: flex; flex-direction: column;
+  background:
+    radial-gradient(1200px 500px at 50% -10%, #16203a 0%, transparent 70%),
+    var(--bg);
+}
+
+/* ---------------------------------------------------------------- chrome */
+
+header {
+  display: flex; align-items: center; gap: 1.5rem;
+  padding: .9rem 1.6rem; border-bottom: 1px solid var(--line);
+  flex: 0 0 auto;
+}
+.brand { font-weight: 700; letter-spacing: .16em; font-size: .9rem;
+         color: var(--dim); text-transform: uppercase; }
+.spacer { flex: 1; }
+
+.pill {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .35rem .85rem; border-radius: 999px;
+  background: var(--bg-soft); border: 1px solid var(--line);
+  font-size: .85rem; color: var(--dim);
+}
+.dot { width: .6rem; height: .6rem; border-radius: 50%; background: var(--bad); }
+.dot.live { background: var(--good); box-shadow: 0 0 12px var(--good); }
+
+/* ----------------------------------------------------------------- stage */
+
+main {
+  flex: 1 1 auto; display: flex; flex-direction: column;
+  justify-content: center; align-items: center;
+  padding: 1rem 2rem; gap: 1rem; min-height: 0;
+}
+
+.headline {
+  font-size: clamp(1.8rem, 4.2vw, 3.4rem);
+  font-weight: 700; text-align: center; line-height: 1.1;
+  margin: 0;
+}
+.sub {
+  font-size: clamp(.95rem, 1.6vw, 1.35rem);
+  color: var(--dim); text-align: center; max-width: 60ch; margin: 0;
+}
+
+.answer-hint {
+  display: flex; gap: 1.5rem; align-items: center; justify-content: center;
+  margin-top: .5rem; flex-wrap: wrap;
+}
+.answer-hint b { color: var(--text); }
+
+.btnrow { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+button {
+  font: inherit; font-size: 1.05rem; font-weight: 600;
+  padding: .8rem 1.6rem; border-radius: var(--radius);
+  border: 1px solid var(--line); background: var(--bg-soft); color: var(--text);
+  cursor: pointer; transition: transform .08s ease, border-color .15s ease;
+}
+button:hover { border-color: var(--accent); }
+button:active { transform: translateY(1px); }
+button.primary { background: var(--accent); border-color: var(--accent); color: #04121f; }
+button.ghost { color: var(--dim); }
+
+/* ------------------------------------------------------------- telemetry */
+
+.telemetry {
+  display: flex; gap: 2.5rem; justify-content: center;
+  font-variant-numeric: tabular-nums;
+}
+.tele { text-align: center; }
+.tele .v { font-size: clamp(1.4rem, 3vw, 2.2rem); font-weight: 700; }
+.tele .k { font-size: .75rem; letter-spacing: .12em; text-transform: uppercase;
+           color: var(--dim); }
+
+/* -------------------------------------------------------------- keyboard */
+
+.kbwrap { width: 100%; flex: 0 0 auto; padding: 0 1rem; }
+svg.keys { width: 100%; height: auto; display: block; }
+
+.wkey { fill: #e9edf6; stroke: #0a0d14; stroke-width: 1; }
+.bkey { fill: #171b26; stroke: #05070c; stroke-width: 1; }
+
+.wkey.cue  { fill: var(--cue); }
+.bkey.cue  { fill: #c8901f; }
+.wkey.down { fill: #9fb3d0; }
+.bkey.down { fill: #4a5a72; }
+.wkey.good { fill: var(--good); }
+.bkey.good { fill: #1f8d5c; }
+.wkey.bad  { fill: var(--bad); }
+.bkey.bad  { fill: #b23744; }
+
+.key { transition: fill .06s linear; }
+.cue { filter: drop-shadow(0 0 10px rgba(255,194,61,.85)); }
+.good { filter: drop-shadow(0 0 10px rgba(53,214,138,.8)); }
+.bad  { filter: drop-shadow(0 0 10px rgba(255,92,108,.8)); }
+
+/* colour is never the only signal (WCAG 1.4.1) - marks and motion too */
+.mark { font-size: 15px; font-weight: 800; text-anchor: middle;
+        pointer-events: none; }
+.mark.good { fill: #06381f; }
+.mark.bad  { fill: #3d0a11; }
+@keyframes shake {
+  0%,100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+@keyframes pop {
+  0% { transform: scale(1); } 45% { transform: scale(1.06); } 100% { transform: scale(1); }
+}
+.shake { animation: shake .18s ease; }
+.pop   { animation: pop .2s ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  .shake, .pop { animation: none; }
+  .key { transition: none; }
+}
+
+/* ----------------------------------------------------------------- lists */
+
+.songs { display: grid; gap: .75rem; width: min(880px, 100%); }
+.song {
+  display: flex; align-items: center; gap: 1rem; text-align: left;
+  padding: 1rem 1.2rem; border-radius: var(--radius);
+  background: var(--bg-soft); border: 1px solid var(--line); cursor: pointer;
+}
+.song:hover { border-color: var(--accent); }
+.song .name { font-size: 1.15rem; font-weight: 650; }
+.song .meta { color: var(--dim); font-size: .85rem; }
+.warn { color: var(--cue); }
+
+.results { display: grid; gap: .6rem; width: min(760px, 100%); text-align: left; }
+.result {
+  display: flex; gap: 1rem; align-items: baseline;
+  padding: .8rem 1rem; border-radius: 12px;
+  background: var(--bg-soft); border: 1px solid var(--line);
+}
+.result .q { flex: 1; }
+.result .a { font-weight: 700; }
+.a.yes { color: var(--good); } .a.no { color: var(--bad); } .a.skip { color: var(--dim); }
+
+.hidden { display: none !important; }
+
+/* ------------------------------------------------- profiles and library */
+
+.tiles { display: flex; gap: 1.2rem; flex-wrap: wrap; justify-content: center; }
+.tile {
+  display: flex; flex-direction: column; align-items: center; gap: .5rem;
+  padding: 1.4rem 1.8rem; min-width: 9rem;
+  border-radius: 22px; background: var(--bg-soft);
+  border: 2px solid var(--line); cursor: pointer;
+}
+.tile:hover { border-color: var(--accent); transform: translateY(-2px); }
+.tile .face { font-size: 3rem; line-height: 1; }
+.tile .who  { font-size: 1.15rem; font-weight: 650; }
+
+.chip {
+  display: inline-flex; align-items: center; gap: .5rem;
+  padding: .3rem .8rem; border-radius: 999px; font-size: .9rem;
+  background: var(--bg-soft); border: 1px solid var(--line); cursor: pointer;
+}
+
+.bigfield {
+  font: inherit; font-size: 1.6rem; text-align: center;
+  padding: .7rem 1.2rem; border-radius: 14px; width: min(420px, 80vw);
+  background: var(--bg-soft); border: 1px solid var(--line); color: var(--text);
+}
+.picker { display: flex; gap: .5rem; flex-wrap: wrap; justify-content: center;
+          max-width: 640px; }
+.opt {
+  width: 3rem; height: 3rem; display: grid; place-items: center;
+  font-size: 1.6rem; border-radius: 14px; cursor: pointer;
+  background: var(--bg-soft); border: 2px solid var(--line);
+}
+.opt.sel { border-color: var(--accent); }
+.swatch { width: 3rem; height: 2rem; border-radius: 10px; cursor: pointer;
+          border: 2px solid transparent; }
+.swatch.sel { border-color: var(--text); }
+
+/* mastery rings - real achievement, never participation */
+.rings { display: flex; gap: 1.1rem; }
+.ring { display: flex; flex-direction: column; align-items: center; gap: .2rem; }
+.ring .pips { letter-spacing: .12em; font-size: .95rem; color: var(--cue); }
+.ring .pips .off { color: var(--line); }
+.ring .lbl { font-size: .65rem; letter-spacing: .1em; text-transform: uppercase;
+             color: var(--dim); }
+.cont { color: var(--accent); font-size: .85rem; font-weight: 600; }
+
+.headline.big { font-size: clamp(2.6rem, 8vw, 6rem); letter-spacing: -.02em; }
+button.big { font-size: 1.35rem; padding: 1rem 2.2rem; }
+
+.speedjump {
+  display: flex; align-items: center; gap: 1.2rem;
+  font-size: clamp(2rem, 6vw, 4rem); font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.speedjump .arrow { color: var(--dim); }
+.speedjump .to { color: var(--good); }
+@keyframes rollup { from { transform: translateY(.5em); opacity: 0; } }
+.speedjump .to.roll { animation: rollup .5s cubic-bezier(.2,.9,.3,1); }
+@media (prefers-reduced-motion: reduce) { .speedjump .to.roll { animation: none; } }
+
+.chip.sel { border-color: var(--accent); color: var(--text); }
+#wrongpick { gap: .4rem; }
+
+.headline.dim { opacity: .55; }

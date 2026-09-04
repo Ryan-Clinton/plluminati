@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "plluminati"
+version = "0.1.0"
+description = "Silent-light practice trainer for the Yamaha EZ-150"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+# Deliberately empty. MIDI I/O goes straight to the ALSA rawmidi character
+# device, so nothing needs compiling (SPEC 7.1). `mido` arrives later, for
+# parsing Standard MIDI Files only - never for I/O - and it is pure Python.
+dependencies = []
+
+[project.scripts]
+plluminati = "plluminati.cli:main"
+
+[tool.setuptools]
+packages = ["plluminati"]

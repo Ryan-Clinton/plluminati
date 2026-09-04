@@ -1,0 +1,45 @@
+# --- Python -----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+
+# --- editors / OS -----------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# --- runtime data -----------------------------------------------------------
+# Profiles and scores live in $XDG_DATA_HOME/plluminati, not here, but keep
+# any stray copies out of the repo: they contain real people's names.
+hardware-profile.json
+profiles/
+*.log
+
+# --- other people's copyright ----------------------------------------------
+# Everything below is fine to keep locally for personal practice, but must not
+# be redistributed. See "What is not in this repo" in the README.
+
+# The Yamaha EZ-150 owner's manual. Yamaha's copyright; freely downloadable
+# from their site, so the repo cites it rather than shipping it. The facts
+# extracted from it (MIDI implementation chart, song list) are in docs/ and
+# are just facts.
+docs/reference/ez150-owners-manual.pdf
+docs/reference/ez150-owners-manual.txt
+
+# Sheet music, anything transcribed from it, and the transcriptions themselves.
+# make_lava_chicken.py embeds the melody as pitch/duration data - that is the
+# composition, not merely a tool.
+sheet-music/
+songs/mine/
+songs/imported/
+tools/make_lava_chicken.py
+
+# --- working notes, kept local ----------------------------------------------
+# Design docs, the spec and third-party design critiques. Useful to have on
+# disk, nobody else's business.
+docs/

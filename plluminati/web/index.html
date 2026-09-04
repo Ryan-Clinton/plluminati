@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Plluminati</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <header>
+    <span class="brand">Plluminati</span>
+    <button id="whoami" class="chip hidden"></button>
+    <span class="spacer"></span>
+    <span class="pill"><span id="livedot" class="dot"></span><span id="livetext">connecting…</span></span>
+    <button id="backbtn" class="ghost hidden">Back</button>
+  </header>
+
+  <main>
+    <!-- who is playing -->
+    <section id="profiles">
+      <h1 class="headline">Who's playing?</h1>
+      <div class="tiles" id="profiletiles"></div>
+      <div class="btnrow"><button id="btn-newprofile" class="ghost">+ New player</button></div>
+    </section>
+
+    <!-- new profile -->
+    <section id="newprofile" class="hidden">
+      <h1 class="headline">New player</h1>
+      <input id="np-name" class="bigfield" placeholder="Name" maxlength="20" autocomplete="off">
+      <div class="picker" id="np-avatars"></div>
+      <div class="picker" id="np-themes"></div>
+      <div class="btnrow">
+        <button id="np-create" class="primary">Create</button>
+        <button id="np-cancel" class="ghost">Cancel</button>
+      </div>
+    </section>
+
+    <!-- home -->
+    <section id="home" class="hidden">
+      <h1 class="headline" id="home-greet">Ready when you are</h1>
+      <p class="sub">The lit key is the instruction.</p>
+      <div class="btnrow">
+        <button id="btn-learn" class="primary">Learn a song</button>
+        <button id="btn-drill">Drill a section</button>
+        <button id="btn-listen">Listen to it</button>
+        <button id="btn-wizard" class="ghost">Check the hardware</button>
+      </div>
+    </section>
+
+    <!-- library -->
+    <section id="songs" class="hidden">
+      <h1 class="headline" id="lib-title">Choose a song</h1>
+      <div class="btnrow">
+        <span class="pill">Hand</span>
+        <button class="hand primary" data-hand="right">Right</button>
+        <button class="hand" data-hand="left">Left</button>
+        <button class="hand" data-hand="both">Both</button>
+        <button id="djtoggle" class="ghost" title="Set the keyboard to DJ Voice 98 (or Drum Kit 00) first: then every key makes a noise and only correct notes get the piano">DJ mode: off</button>
+        <span class="pill">Wrong note</span><span id="wrongpick" class="picker"></span>
+      </div>
+      <div class="songs" id="songlist"></div>
+    </section>
+
+    <!-- hardware wizard -->
+    <section id="wizard" class="hidden">
+      <h1 class="headline" id="wz-title">…</h1>
+      <p class="sub" id="wz-detail"></p>
+      <div class="answer-hint hidden" id="wz-hint">
+        <span>Answer on the piano:</span><span><b>below middle C</b> = yes</span>
+        <span><b>above</b> = no</span>
+      </div>
+      <div class="btnrow hidden" id="wz-buttons">
+        <button class="primary" data-answer="true">Yes</button>
+        <button data-answer="false">No</button>
+        <button class="ghost" data-answer="skip">Skip</button>
+      </div>
+    </section>
+
+    <section id="wzdone" class="hidden">
+      <h1 class="headline">Hardware checked</h1>
+      <div class="results" id="wz-results"></div>
+      <div class="btnrow"><button id="btn-after-wizard" class="primary">Play something</button></div>
+    </section>
+
+    <!-- play -->
+    <section id="play" class="hidden">
+      <div class="telemetry">
+        <div class="tele"><div class="v" id="p-bar">–</div><div class="k">Bar</div></div>
+        <div class="tele"><div class="v" id="p-progress">0/0</div><div class="k" id="p-progress-k">Step</div></div>
+        <div class="tele"><div class="v" id="p-speed">–</div><div class="k">Speed</div></div>
+        <div class="tele"><div class="v" id="p-streak">0</div><div class="k">Streak</div></div>
+        <div class="tele"><div class="v" id="p-wrong">0</div><div class="k">Wrong</div></div>
+      </div>
+      <h1 class="headline" id="p-notes">…</h1>
+      <p class="sub" id="p-sub"></p>
+      <div class="btnrow"><button id="btn-stopplay" class="ghost">Stop</button></div>
+    </section>
+
+    <!-- payoff -->
+    <section id="done" class="hidden">
+      <h1 class="headline big" id="d-title">Done</h1>
+      <div class="speedjump hidden" id="d-jump">
+        <span id="d-from">60%</span><span class="arrow">→</span><span id="d-to" class="to">70%</span>
+      </div>
+      <div class="telemetry">
+        <div class="tele"><div class="v" id="d-a">0</div><div class="k" id="d-ak">Notes</div></div>
+        <div class="tele"><div class="v" id="d-b">0</div><div class="k" id="d-bk">Wrong</div></div>
+        <div class="tele"><div class="v" id="d-c">0</div><div class="k" id="d-ck">Timing</div></div>
+      </div>
+      <div class="btnrow">
+        <button id="btn-next" class="primary big">Again</button>
+        <button id="btn-pick" class="ghost">Another song</button>
+      </div>
+    </section>
+  </main>
+
+  <div class="kbwrap"><svg id="keys" class="keys" viewBox="0 0 1000 150"
+       preserveAspectRatio="xMidYMid meet"></svg></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
